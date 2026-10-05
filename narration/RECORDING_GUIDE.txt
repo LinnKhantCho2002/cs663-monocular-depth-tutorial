@@ -1,0 +1,41 @@
+Page narration — recording guide for Linn Khant Cho
+=================================================
+
+Use your own voice. These short scripts summarize each page; the written
+lessons supply the detailed explanations and the demonstrations.
+
+1. Read and revise each script into words you understand and can explain.
+2. Record in a quiet room with a comfortable pace, about 140–165 words/minute.
+3. Save or export each recording as .m4a using the exact filename below.
+4. Put the recordings in site/narration/ in this project.
+5. Run .venv/bin/python scripts/build_site.py from the project folder.
+6. Play each page's audio and verify clear sound, correct playback, and that
+   the spoken statements match the page. Then update the published site.
+
+Files:
+  index.txt         -> index.m4a         Introduction
+  geometry.txt      -> geometry.m4a      Scale and output conventions
+  methods.txt       -> methods.m4a       Foundation models and adaptation
+  evaluation.txt    -> evaluation.m4a    Protocol and results
+  experiments.txt   -> experiments.m4a   How to inspect the demonstrations
+  conclusions.txt   -> conclusions.m4a  Claims, limitations, and next steps
+  bibliography.txt  -> bibliography.m4a Sources and reliability
+
+Most scripts are about 45–60 seconds at a comfortable pace.
+Pronunciation notes: RGB = R G B; DPT = D P T; DINO = dee-no;
+NYU = N Y U; DA3 = Depth Anything Three; AC = A C;
+AbsRel = absolute relative error; MPS = M P S.
+The spoken script uses words instead of reading most notation aloud.
+
+Important content checkpoints:
+- Relative inverse depth has arbitrary units. Higher means closer in the
+  common comparison convention, including the converted DA3 output.
+- The browser loads saved inference; it does not run a model.
+- Six NYU examples use oracle alignment fitted on the same scored pixels.
+  Those scores are not raw metric accuracy.
+- The AC authors fine-tuned the checkpoint. This project did not train it.
+- The local experiment is a small fixed study, not a full benchmark.
+- Laptop timing is not a phone deployment result.
+
+Page recordings fulfill the webpage-voice component once added and tested.
+They are separate from the required full spoken presentation video.

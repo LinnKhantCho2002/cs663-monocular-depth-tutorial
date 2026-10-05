@@ -1,0 +1,33 @@
+One image. How much geometry?
+=============================
+Welcome to this tutorial on monocular depth estimation. A photograph gives us appearance; a depth model estimates where surfaces lie. We will begin with the ambiguity of a single camera image, examine foundation models and adaptation, and then inspect actual checkpoint results. The recommended study path takes about twenty to twenty-seven minutes including exploration. Our local comparison includes Depth Anything V2 Small, DepthAnything-AC Small, and Depth Anything 3 Small. Other papers are literature coverage. The browser demonstrations load saved predictions from real local runs. They do not execute a neural network in your browser. The goal is to explain what each result supports, identify a failure, and avoid confusing a colorful relative map with a measurement in meters.
+
+
+What an image cannot tell you
+=============================
+A single image does not uniquely determine scene scale. In the pinhole camera model, projection depends on X over Z and Y over Z. Scaling every coordinate by the same positive factor leaves these ratios unchanged. Learned cues such as occlusion, perspective, and familiar objects help a model infer plausible geometry, but they do not make the answer unique. Relative depth describes near and far structure. Relative inverse depth is a proximity-like value; higher means closer in our common comparison convention. Metric depth has physical units. These quantities must stay separate. The viewer colors each map using its own range, so matching colors across maps do not imply matching distances. Mirrors and glass introduce another question: are we describing the physical surface or the scene visible through reflection or transmission?
+
+
+From representations to geometry
+================================
+A foundation model contributes broadly learned representations that can be adapted to a dense geometry task. DPT converts transformer features into spatial maps for a dense decoder. Depth Anything V2 uses synthetic supervision and real-image pseudo-labels to train depth students. Marigold instead repurposes a diffusion image model for depth. Metric3Dv2 and Depth Pro target metric geometry, with camera conventions and focal information becoming important. DepthAnything-AC adapts a pretrained depth model through appearance perturbation consistency and spatial constraints. We use the authors' adapted checkpoint; we do not fine-tune it ourselves. Depth Anything 3 includes any-view geometry, but we test only its Small checkpoint on one view. DepthART adds a recent compression and adaptation direction. Selecting a family name is insufficient: always specify the checkpoint, output quantity, and experimental task.
+
+
+Choose the question before the score
+====================================
+Choose the evaluation question before the score. DA-2K gives annotated near and far pairs, not dense meter-valued depth. Our ordering study uses fifteen images and thirty-five pairs, selected before inference. Each model processes the same original, mildly dimmed, strongly dimmed, and blurred inputs. These transformations are controlled postprocessing, not a complete physical camera simulation. NYU supplies indoor sensor references. For six examples, we fit scale and shift in inverse-depth space using the same ground-truth pixels that we then score. That is oracle shape alignment, not uncalibrated metric performance. The mask requires sensor support, valid depth, and a crop. We average error per image. Correlated pairs and transformed copies are not independent scenes. The downloadable records preserve the exact protocol, revisions, and per-case results.
+
+
+Inspect the evidence yourself
+=============================
+Use the explorer to change one variable at a time. Start with the car mirror, original input, and its second annotated pair. Compare V2, AC, and DA3. Then inspect an indoor scene under strong dimming, and examine a thin structure such as a glass rim. Reveal the map, adjust the overlay, and move probes A and B. Higher inverse depth means closer, but the raw values are arbitrary. Free probes use a reduced display grid. The annotated-pair panel instead uses exact original-resolution values. Zoom enlarges a display; it does not add model detail. In the NYU explorer, switch between relative output, filled sensor depth, aligned prediction, error, and the scoring mask. Remember that the aligned map used the reference answer to fit its scale. Explain your observation with a scene, condition, checkpoint, and carefully limited claim.
+
+
+What can we defend?
+===================
+Our results support statements about selected checkpoints on selected inputs. V2 and AC have the same clean pair count, with modest differences under synthetic corruption. DA3 Small behaves differently in this one-view study and succeeds on a clean mirror pair missed by the other models. No aggregate establishes a universal winner. The six NYU cases reveal shape agreement after oracle alignment rather than deployment-ready meter accuracy. Applications change what an acceptable error means: a photograph effect, scene-understanding system, and robot need different validation. The laptop timing is not a phone deployment result. Next research steps include independent camera-specific data, physical exposure experiments, controlled adaptation with clean-domain retention, and evaluation on the actual target device. Be ready to explain both a success and a failure in your own words.
+
+
+Follow the primary evidence
+===========================
+The bibliography links directly to primary papers and datasets, with numbers matching first appearance in the lesson sequence. Each entry identifies the work, its authors or institutional source, its date, its relevance, and a reliability assessment. A peer-reviewed venue does not make every claim universally applicable, and an arXiv posting alone is not peer review. Author-provided benchmarks should be distinguished from independent evaluation. The tutorial's original diagrams and local prediction renders are identified separately from borrowed photographs. Photo captions preserve dataset and filename attribution, and watermarks remain visible. Model licenses do not automatically cover the source photographs. The downloadable provenance pins revisions and checksums so a reader can identify exactly what was studied.
