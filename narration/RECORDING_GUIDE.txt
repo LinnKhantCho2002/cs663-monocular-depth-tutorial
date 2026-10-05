@@ -8,7 +8,7 @@ lessons supply the detailed explanations and the demonstrations.
 2. Record in a quiet room with a comfortable pace, about 140–165 words/minute.
 3. Save or export each recording as .m4a using the exact filename below.
 4. Put the recordings in site/narration/ in this project.
-5. Run .venv/bin/python scripts/build_site.py from the project folder.
+5. Run .venv/bin/python scripts/build_site.py --content-only from the project folder.
 6. Play each page's audio and verify clear sound, correct playback, and that
    the spoken statements match the page. Then update the published site.
 
