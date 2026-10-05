@@ -3,3 +3,25 @@
 @media(max-width:1050px){.layout{grid-template-columns:180px minmax(0,1fr);gap:30px;padding:34px 25px 0}.sidebar nav a{padding:10px;gap:10px}.lab-grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.header-link{font-size:12px}}
 @media(max-width:700px){body{font-size:16px}.site-header{height:72px;padding:0 18px}.brand{font-size:15px}.brand-mark{font-size:33px}.brand small{font-size:9px}.header-link{display:none}.menu-toggle{display:block;font-size:12px}.layout{display:block;padding:25px 20px 0}.sidebar{position:static}.sidebar .eyebrow,.sidebar-note{display:none}.sidebar nav{display:none;margin:0 0 25px;grid-template-columns:1fr 1fr}.sidebar nav.open{display:grid}.sidebar nav a{font-size:12px}.lead{font-size:20px}h1{font-size:39px}h2{font-size:24px}.method-grid{grid-template-columns:1fr}.route li{grid-template-columns:1fr;gap:4px}.route span{padding-left:30px}.lab{padding:13px;margin-left:-5px;margin-right:-5px}.controls{gap:10px}.image-pair{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}#nyu-explorer .controls{grid-template-columns:1fr}.page-turn{font-size:13px}footer{display:block}th,td{padding:10px}figure img{border-radius:8px}pre{font-size:11px;padding:17px}.callout,.activity{padding:17px}html{scroll-padding-top:82px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{.site-header,.sidebar,.narration,.page-turn{display:none}.layout{display:block;padding:0}main{max-width:none}.lab{break-inside:avoid}body{font-size:12px}h1{font-size:30px}a{color:inherit}}
+
+/* Recording and worked-example controls */
+.recording-tools{margin-top:1.2rem;border-top:1px solid var(--line,#dcded9);padding-top:1rem}
+.recording-tools summary{cursor:pointer;font-weight:650}
+.recorder-buttons{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1rem 0}
+.recorder-buttons a{border:1px solid currentColor;padding:.45rem .8rem;border-radius:6px}
+.recorder button{padding:.5rem .85rem;cursor:pointer}
+.recorder button:disabled{opacity:.5;cursor:default}
+.recorder audio{width:100%;margin:.5rem 0}
+.recorder time{font-variant-numeric:tabular-nums}
+.recorder [hidden]{display:none}
+.worked-example{padding:1.25rem;border:1px solid var(--line,#dcded9);border-radius:12px;background:#f3f6f4}
+.worked-example .controls label{min-width:160px;flex:1}
+.loss-bars{height:190px;display:flex;align-items:flex-end;gap:2rem;padding:1rem;border-bottom:1px solid #bcc7c0}
+.loss-bar{width:48px;background:#21786d;transition:height .1s}
+.loss-bars figure{margin:0;text-align:center}
+.loss-bars figcaption{font-size:.85rem}
+.optional-depth{margin:1.5rem 0;padding:1rem 1.2rem;border:1px solid #d3dcd6;border-radius:8px}
+.optional-depth summary{font-weight:650;cursor:pointer}
+.worked-example .controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+.worked-example .controls label{min-width:0}
+@media(max-width:700px){.worked-example .controls{grid-template-columns:1fr}.loss-bars{gap:1.5rem}}

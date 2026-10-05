@@ -10,8 +10,12 @@ No Python server or model weights are required on GitHub Pages.
 No inference is performed in the browser. Predictions are from real local runs.
 
 Narration scripts are in narration/. Page audio recordings remain pending.
-Add a recording named <page-slug>.m4a and rebuild to include an audio player.
+Use the recorder beside each page script, preview, and download the named clip.
+Add <page-slug>.m4a, .webm, .ogg, .mp3, .wav, or .mp4 and rebuild for playback.
+Recordings are local until the student adds and publishes them.
 The student selected their own recordings; use narration/RECORDING_GUIDE.txt.
+
+Reader inference and complete study source are in reproduce/; see its README.
 
 Primary sources, photograph attribution, model licensing, evidence limitations,
 and AI-assistance disclosure are on the bibliography and relevant lesson pages.

@@ -1,49 +1,47 @@
-Page narration — recording guide for Linn Khant Cho
-=================================================
+Page narration — Linn Khant Cho
+==============================
+Use your own voice. Read and revise the script so you can explain every sentence.
+Each short clip introduces its page; the written lessons provide the details.
 
-Use your own voice. These short scripts summarize each page; the written
-lessons supply the detailed explanations and the demonstrations.
+The easiest route
+1. Open the page on the public HTTPS website or the local HTTP preview.
+2. Expand "Page narration: listen, read, or record".
+3. Expand "Record your own narration". Press Record and allow microphone access.
+4. Read the script above slowly. You can pause naturally. Press Stop when finished.
+5. Listen with the preview player. If needed, choose Record again.
+6. Press Download clip BEFORE changing pages. Check your Downloads folder.
+7. Repeat for the next page.
 
-1. Read and revise each script into words you understand and can explain.
-2. Record in a quiet room with a comfortable pace, about 140–165 words/minute.
-3. Save or export each recording as .m4a using the exact filename below.
-4. Put the recordings in site/narration/ in this project.
-5. Run .venv/bin/python scripts/build_site.py --content-only from the project folder.
-6. Play each page's audio and verify clear sound, correct playback, and that
-   the spoken statements match the page. Then update the published site.
+Recording is local. Nothing is uploaded and the public page voice remains pending.
+The clip is temporary until downloaded. Changing pages can lose an unsaved take.
+Most clips take about 45–70 seconds. Seven clips usually take around 10–15 minutes including retakes.
 
-Files:
-  index.txt         -> index.m4a         Introduction
-  geometry.txt      -> geometry.m4a      Scale and output conventions
-  methods.txt       -> methods.m4a       Foundation models and adaptation
-  evaluation.txt    -> evaluation.m4a    Protocol and results
-  experiments.txt   -> experiments.m4a   How to inspect the demonstrations
-  conclusions.txt   -> conclusions.m4a  Claims, limitations, and next steps
-  bibliography.txt  -> bibliography.m4a Sources and reliability
+Files are named automatically:
+index, geometry, methods, evaluation, experiments, conclusions, bibliography.
+The browser chooses .webm, .m4a or .ogg depending on supported recording formats.
+Keep the filename and extension. Do not rename an encoded .webm file to .m4a.
 
-Most scripts are about 45–60 seconds at a comfortable pace.
-Pronunciation notes: RGB = R G B; DPT = D P T; DINO = dee-no;
-NYU = N Y U; DA3 = Depth Anything Three; AC = A C;
-AbsRel = absolute relative error; MPS = M P S.
-The spoken script uses words instead of reading most notation aloud.
+To add the real clips to this project
+Place the seven downloaded files in site/narration/.
+From the project folder run:
+    .venv/bin/python scripts/build_site.py --content-only
+The builder supports .m4a, .webm, .ogg, .mp3, .wav and .mp4.
+Use one final clip per page and remove superseded versions. Test every audio player locally before publishing. Verify playback again on the public website after the Pages build completes.
 
-Important content checkpoints:
-- Relative inverse depth has arbitrary units. Higher means closer in the
-  common comparison convention, including the converted DA3 output.
-- The browser loads saved inference; it does not run a model.
-- Six NYU examples use oracle alignment fitted on the same scored pixels.
-  Those scores are not raw metric accuracy.
-- The AC authors fine-tuned the checkpoint. This project did not train it.
-- The local experiment is a small fixed study, not a full benchmark.
-- Laptop timing is not a phone deployment result.
+If browser recording is unavailable
+Use Voice Memos on the Mac, record each script, and export each clip as the matching page-name.m4a. Keep a quiet room and a consistent microphone distance.
+Headphones help when reviewing. Aim for clear explanations, not a perfect announcer voice.
 
-Page recordings fulfill the webpage-voice component once added and tested.
-They are separate from the required full spoken presentation video.
+Pronunciation
+RGB: R G B; DPT: D P T; DINO: dee-no; NYU: N Y U;
+DA3: Depth Anything Three; AC: A C; AbsRel: absolute relative error.
 
-Publishing the recordings after a local check:
-  git -C site add narration index.html geometry.html methods.html evaluation.html experiments.html conclusions.html bibliography.html
-  git -C site commit -m "Add student page narration"
-  git -C site push
+Content checks
+Relative inverse depth uses arbitrary units; higher means closer.
+The browser displays saved inference; it does not run a neural model.
+NYU scores use oracle alignment on the scored reference pixels.
+The AC authors fine-tuned their checkpoint; this project did not train it.
+The small local comparison is not a full benchmark or a phone deployment.
 
-The GitHub Pages build should run automatically after the push. Confirm the
-new audio plays on the public URL before treating the voice requirement as done.
+The downloaded clips are separate from the full spoken presentation video.
+The webpage-voice requirement is complete only when your recordings are added, published and tested.
