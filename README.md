@@ -11,7 +11,7 @@ No inference is performed in the browser. Predictions are from real local runs.
 
 Narration scripts are in narration/. Page audio recordings remain pending.
 Add a recording named <page-slug>.m4a and rebuild to include an audio player.
-Generated narration should be identified and its course acceptability confirmed.
+The student selected their own recordings; use narration/RECORDING_GUIDE.txt.
 
 Primary sources, photograph attribution, model licensing, evidence limitations,
 and AI-assistance disclosure are on the bibliography and relevant lesson pages.

@@ -39,3 +39,11 @@ Important content checkpoints:
 
 Page recordings fulfill the webpage-voice component once added and tested.
 They are separate from the required full spoken presentation video.
+
+Publishing the recordings after a local check:
+  git -C site add narration index.html geometry.html methods.html evaluation.html experiments.html conclusions.html bibliography.html
+  git -C site commit -m "Add student page narration"
+  git -C site push
+
+The GitHub Pages build should run automatically after the push. Confirm the
+new audio plays on the public URL before treating the voice requirement as done.
