@@ -23,8 +23,8 @@
     demo.querySelector("#loss-raw").textContent = mean(student.map((v, i) => Math.abs(v - anchor[i]))).toFixed(3);
     demo.querySelector("#loss-normalized").textContent = mean(normalizedStudent.map((v, i) => Math.abs(v - normalizedAnchor[i]))).toFixed(3);
     demo.querySelector("#loss-reading").textContent = e === 0
-      ? "Scale and offset changed, but the normalized shape still matches."
-      : "The third point changed on its own. Normalization leaves an error in the shape.";
+      ? "Changing scale and offset alone leaves the normalized shape unchanged."
+      : "Changing the third point changes the shape, so the normalized error increases.";
     for (let i = 0; i < 3; i++) {
       demo.querySelector("#loss-bar-" + i).style.height = (20 + (student[i] + 1) * 18) + "px";
       demo.querySelector("#loss-bar-" + i).setAttribute("aria-label", "Student point " + (i + 1) + ": " + student[i].toFixed(2));

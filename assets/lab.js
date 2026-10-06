@@ -70,7 +70,7 @@ function drawComparison() {
   $("comparison-model").textContent=state.catalog.models[$("model").value]+" · the same annotated pair in both columns";
   $("comparison-summary").replaceChildren();
   const expected=selected.closer_point==="point1"?"A":"B";
-  const reference=document.createElement("p"); reference.textContent="Source annotation: "+expected+" is closer. This label checks only these two locations.";
+  const reference=document.createElement("p"); reference.textContent="Source annotation: "+expected+" is closer. The label applies to these two locations.";
   $("comparison-summary").append(reference);
   for (const [title,record,p] of [["Original",state.baseline.record,original],[conditions[$("condition").value],state.grid.record,selected]]) {
     const row=document.createElement("p"),label=document.createElement("strong"),result=document.createElement("span");
@@ -78,7 +78,7 @@ function drawComparison() {
     result.className=p.correct?"correct":"incorrect";
     row.append(label,result,". All annotated pairs: "+record.correct+" / "+record.total+" correct."); $("comparison-summary").append(row);
   }
-  $("guess-feedback").textContent=state.guess ? "You predicted “"+answerText(state.guess)+"”. The model predicts “"+answerText(answer(selected))+"”. Your guess is about the model’s answer; the source annotation checks whether that answer is correct." : "";
+  $("guess-feedback").textContent=state.guess ? "You predicted “"+answerText(state.guess)+"”. The model predicts “"+answerText(answer(selected))+"”." : "";
 }
 function syncReveal() {
   const ready=Boolean(state.grid);
@@ -178,7 +178,7 @@ async function selectCase(reset=false,pairIndex=null) {
     if(s.id==="da2k_transparent_reflective_03")cap.append(" Photo: Marnee Pearce; watermark retained.");
     resetPair();drawComparison();await updateComparison(token);
     if(token!==state.token)return;
-    message("Precomputed outputs loaded. Changing the condition loads its matching prediction.");syncReveal();
+    message("Precomputed outputs loaded.");syncReveal();
   } catch(error) {
     if(token===state.token){state.grid=null;syncReveal();fail(error);}
   }
@@ -210,27 +210,27 @@ function nyuUpdate(){
 const s=state.catalog.nyu.find(s=>s.id===$("nyu-scene").value),key=$("nyu-model").value,layer=$("nyu-layer").value,m=s.models[key];
 const path=layer==="gt"||layer==="mask"?s[layer]:m[layer];$("nyu-rgb").src=s.rgb;$("nyu-rgb").alt="NYU RGB: "+s.title;$("nyu-map").src=path;
 const label=$("nyu-layer").selectedOptions[0].textContent;$("nyu-map").alt=s.title+": "+label;$("nyu-map-caption").textContent=label;
-$("nyu-legend").textContent=layer==="relative"?"Relative inverse depth: dark = farther, bright = closer; each map uses its own range.":layer==="gt"||layer==="aligned"?"Viridis meter scale: dark purple = 0.1 m, yellow = 10 m. Common range for reference and aligned prediction.":layer==="error"?"Absolute relative error: dark = 0, yellow = 0.5 or higher. Excluded pixels are dark blue-gray.":"White pixels are scored; black pixels are excluded.";
+$("nyu-legend").textContent=layer==="relative"?"Relative inverse depth: brighter means closer. The colors are not distances in meters.":layer==="gt"||layer==="aligned"?"Depth scale: purple = 0.1 m; yellow = 10 m. The reference and aligned prediction use the same range.":layer==="error"?"Error: brighter means a larger mismatch. Yellow = 0.5 or more; blue-gray pixels are excluded.":"Scoring mask: white pixels are included; black pixels are excluded.";
 const metrics=[["Aligned AbsRel ↓",m.metrics.abs_rel.toFixed(5)],["Aligned RMSE (m) ↓",m.metrics.rmse_m.toFixed(4)],["δ₁ ↑",(m.metrics.delta1*100).toFixed(2)+"%"],["Valid pixels",m.metrics.valid_pixels.toLocaleString()]];
 $("nyu-metrics").replaceChildren();for(const [label,value] of metrics){const div=document.createElement("div"),strong=document.createElement("strong");strong.textContent=value;div.append(strong,label);$("nyu-metrics").append(div);}
-$("nyu-fit").textContent="Reference-based fit: a = "+m.fit.scale.toFixed(6)+", shift b = "+m.fit.shift.toFixed(6)+". Clipped fraction: "+(100*m.fit.clipped_valid_fraction).toFixed(3)+"%. The reference was used to fit and score this map.";
+$("nyu-fit").textContent="Fitted scale a = "+m.fit.scale.toFixed(6)+", offset b = "+m.fit.shift.toFixed(6)+". Clipped fraction: "+(100*m.fit.clipped_valid_fraction).toFixed(3)+"%. The sensor reference was used for both fitting and scoring.";
 $("nyu-source").replaceChildren();$("nyu-source").append("Source: NYU Depth V2 ");const citation=document.createElement("a");citation.href="bibliography.html#ref11";citation.textContent="[11]";$("nyu-source").append(citation," · labeled-file zero-based index "+s.index+". ");
 const a=document.createElement("a");a.href=s.source_url;a.textContent="Dataset homepage";$("nyu-source").append(a);
 }
 for(const id of ["nyu-scene","nyu-model","nyu-layer"])$(id).addEventListener("change",nyuUpdate);
 const examples={
-"mirror":{scene:"da2k_transparent_reflective_03",condition:"clean",model:"v2",pair:1,reading:"Mirror · pair 2. Reveal V2’s prediction, then choose DA3 in the Model control to compare the same points."},
+"mirror":{scene:"da2k_transparent_reflective_03",condition:"clean",model:"v2",pair:1,reading:"Mirror · V2 · pair 2. The Model control switches between predictions at the same points."},
 "mirror-da3":{scene:"da2k_transparent_reflective_03",condition:"clean",model:"da3",pair:1,reading:"Mirror · DA3 · pair 2. Reveal the prediction and check it against the annotation."},
-"traffic-original":{scene:"da2k_adverse_style_03",condition:"clean",model:"v2",pair:1,reading:"Traffic · V2 · pair 2. Try dimming or blur with the same model, then reveal the results."},
+"traffic-original":{scene:"da2k_adverse_style_03",condition:"clean",model:"v2",pair:1,reading:"Traffic · V2 · pair 2. The condition buttons load dimmed or blurred versions of this photo."},
 "dimming":{scene:"da2k_adverse_style_03",condition:"dark_strong",model:"v2",pair:1,reading:"Traffic · severe dimming · V2 · pair 2. Compare the original and almost-black input, then reveal both predictions."},
 "traffic-ac":{scene:"da2k_adverse_style_03",condition:"dark_strong",model:"ac",pair:1,reading:"Traffic · severe dimming · AC · pair 2. Reveal the results to compare its answer with the annotation."},
-"kitchen":{layer:"aligned",reading:"Kitchen · V2 · aligned prediction. Scale and shift were fitted using the reference. Next compare the sensor reference and error map."},
-"kitchen-reference":{layer:"gt",reading:"Kitchen · filled sensor reference. Compare the right counter edge with the aligned V2 prediction, using the same meter color range."},
-"kitchen-error":{layer:"error",reading:"Kitchen · V2 · relative error. Bright areas near the counter edge show a mismatch; blue-gray areas were excluded. A low average does not mean every edge is correct."}
+"kitchen":{layer:"aligned",reading:"Kitchen · aligned V2 prediction. Its scale and offset were fitted to the sensor reference."},
+"kitchen-reference":{layer:"gt",reading:"Kitchen · sensor reference. This is the depth map used to align and score the prediction."},
+"kitchen-error":{layer:"error",reading:"Kitchen · V2 error map. The brighter counter edge shows a local mismatch."}
 };
 const exampleButtons=[...document.querySelectorAll("[data-example]")];
 for(const button of exampleButtons){button.disabled=true;button.setAttribute("aria-pressed","false");button.addEventListener("click",()=>applyExample(button.dataset.example).catch(fail));}
-function clearGuidance(){$("case-reading").textContent="";$("kitchen-reading").textContent="";for(const button of exampleButtons)button.setAttribute("aria-pressed","false");$("example-status").textContent="Controls changed. Compare the current scene, model, input, and reference in the viewer.";}
+function clearGuidance(){$("case-reading").textContent="";$("kitchen-reading").textContent="";for(const button of exampleButtons)button.setAttribute("aria-pressed","false");$("example-status").textContent="The comparison now uses your selected settings.";}
 for(const id of ["scene","condition","model","pair","nyu-scene","nyu-model","nyu-layer"])$(id).addEventListener("change",clearGuidance);
 async function applyExample(key){
 const example=examples[key];if(!example||!state.catalog)return;
