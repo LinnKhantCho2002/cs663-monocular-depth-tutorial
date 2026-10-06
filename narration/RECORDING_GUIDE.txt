@@ -9,7 +9,7 @@ Use these scripts as a starting point and adjust them to your own speaking style
 5. Check your Downloads folder before moving to the next guide.
 
 Clips stay local. Download before leaving the page so you do not lose a take.
-Each script takes roughly 40–60 seconds; allow extra time for retakes.
+Each script takes roughly 35–50 seconds; allow time for pauses and retakes.
 
 The eight files are named for their pages:
 index (introduction), start (mirror guide), geometry, methods, evaluation, experiments, conclusions, bibliography.
@@ -27,7 +27,8 @@ Record in a quiet room at a consistent distance from the microphone.
 
 Pronunciation
 RGB: R G B; DPT: D P T; DINO: dee-no; NYU: N Y U;
-DA3: Depth Anything Three; AC: A C; AbsRel: absolute relative error.
+V2: V two; DA3: Depth Anything Three; AC: A C; AbsRel: absolute relative error.
+DA-2K: D A two K. The evaluation script rounds 0.02605 to 2.6 percent.
 
 Before keeping a take, check that the explanation matches the guide:
 - The outputs are relative inverse depth, not meters.
