@@ -2,17 +2,17 @@ Page narration
 ==============
 Use these scripts as a starting point and adjust them to your own speaking style.
 
-1. Open a lesson and expand "Page narration: listen, read, or record".
+1. Open a guide and expand "Page narration: listen, read, or record".
 2. Open "Record your own narration". Press Record and allow microphone access.
 3. Read the script. Press Stop, then listen back.
 4. Choose Record again for a retake, or Download clip to keep it.
-5. Check your Downloads folder before moving to the next lesson.
+5. Check your Downloads folder before moving to the next guide.
 
 Clips stay local. Download before leaving the page so you do not lose a take.
 Each script takes roughly 40–60 seconds; allow extra time for retakes.
 
 The eight files are named for their pages:
-index (introduction), start (mirror lesson), geometry, methods, evaluation, experiments, conclusions, bibliography.
+index (introduction), start (mirror guide), geometry, methods, evaluation, experiments, conclusions, bibliography.
 Your browser chooses .webm, .m4a or .ogg. Keep the original extension.
 
 Adding the clips
@@ -29,7 +29,7 @@ Pronunciation
 RGB: R G B; DPT: D P T; DINO: dee-no; NYU: N Y U;
 DA3: Depth Anything Three; AC: A C; AbsRel: absolute relative error.
 
-Before keeping a take, check that the explanation matches the lesson:
+Before keeping a take, check that the explanation matches the guide:
 - The outputs are relative inverse depth, not meters.
 - NYU scores use the reference to fit scale and shift.
 - The AC checkpoint was adapted by its authors; this project did not train it.

@@ -18,5 +18,5 @@ The student selected their own recordings; use narration/RECORDING_GUIDE.txt.
 Reader inference and complete study source are in reproduce/; see its README.
 
 Primary sources, photograph attribution, model licensing, evidence limitations,
-and AI-assistance disclosure are on the bibliography and relevant lesson pages.
+and AI-assistance disclosure are on the bibliography and relevant guide pages.
 Do not infer a photograph license from model-code licensing.
