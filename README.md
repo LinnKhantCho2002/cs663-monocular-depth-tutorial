@@ -9,11 +9,9 @@ GitHub Pages can publish the contents of this folder as a branch root.
 No Python server or model weights are required on GitHub Pages.
 No inference is performed in the browser. Predictions are from real local runs.
 
-Narration scripts are in narration/. Page audio recordings remain pending.
-Use the recorder beside each page script, preview, and download the named clip.
-Add <page-slug>.m4a, .webm, .ogg, .mp3, .wav, or .mp4 and rebuild for playback.
-Recordings are local until the student adds and publishes them.
-The student selected their own recordings; use narration/RECORDING_GUIDE.txt.
+Each page has Linn Khant Cho's recorded narration and a downloadable script.
+Audio players support play/pause, seeking, and volume. Recordings are in narration/.
+Original recordings are kept in the project workspace; published MP3 copies provide browser playback.
 
 Reader inference and complete study source are in reproduce/; see its README.
 
