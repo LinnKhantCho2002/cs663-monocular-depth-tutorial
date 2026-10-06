@@ -5,7 +5,7 @@ This tutorial is about how recent depth models respond to dimming and blur. Mono
 
 Which point is closer?
 ======================
-A mirror makes depth harder to read because a nearby surface reflects another scene. A and B mark two locations in the photo. Take a moment to choose which is closer before opening the model maps. The models disagree on this pair. Their inverse-depth values explain each answer: a larger value means closer. The source label tells us which answer matches these two points. It doesn't check the rest of the reflection. That is the difference between seeing a convincing depth map and having a reference that can test it.
+A mirror makes depth harder to read because a nearby surface reflects another scene. A and B mark two locations in the photo. Take a moment to choose which is closer before opening the model maps. The models disagree on this pair. Their inverse-depth values explain each answer: a larger value means closer. The source label tells us which answer matches these two points. The dataset gives each model the same question, so we can check their answers directly.
 
 
 Depth, scale, and the camera
@@ -20,7 +20,7 @@ The main difference I'm studying is how the models learn depth. V2 uses pretrain
 
 Putting the predictions to a test
 =================================
-I used two types of reference. DA-2K gives near and far labels for pairs of points. NYU provides indoor sensor depth, which lets us compare surfaces across an image. The models' relative outputs have to be fitted to that reference before I can score them in meters. For the kitchen, V2's aligned error is about zero point zero two six. That is a low average, but the error map still shows a mismatch near the counter edge. The score describes agreement after fitting. It doesn't show that the model knew those distances on its own.
+I used two types of reference. DA-2K gives near and far labels for pairs of points. NYU provides indoor sensor depth, which lets us compare surfaces across an image. The models' relative outputs have to be fitted to that reference before I can score them in meters. For the kitchen, V2's aligned error is about zero point zero two six. That is a low average, but the error map still shows a mismatch near the counter edge. The fitted scale and shift come from the sensor reference.
 
 
 Test what changes
@@ -30,7 +30,7 @@ Here you can compare the same photo under dimming and blur. The original stays o
 
 What the comparison showed
 ==========================
-On these selected photos, AC keeps more pairs correct than V2 under strong dimming and blur. They both get thirty-four of thirty-five pairs right on the originals. With strong dimming, AC stays at thirty-four and V2 falls to thirty-two. DA3 gets the mirror pair right, but its overall count falls more under the changed inputs. These results describe the released models on this small sample. They don't tell us which training component caused the difference. The next test would use more independent scenes and actual low-light photographs, rather than digital dimming alone.
+On these selected photos, AC keeps more pairs correct than V2 under strong dimming and blur. They both get thirty-four of thirty-five pairs right on the originals. With strong dimming, AC stays at thirty-four and V2 falls to thirty-two. DA3 gets the mirror pair right, but its overall count falls more under the changed inputs. These results describe the released models on this small sample. The next test would use more independent scenes and actual low-light photographs, rather than digital dimming alone.
 
 
 Papers and datasets
