@@ -1,47 +1,38 @@
-Page narration — Linn Khant Cho
-==============================
-Use your own voice. Read and revise the script so you can explain every sentence.
-Each short clip introduces its page; the written lessons provide the details.
+Page narration
+==============
+Use these scripts as a starting point and adjust them to your own speaking style.
 
-The easiest route
-1. Open the page on the public HTTPS website or the local HTTP preview.
-2. Expand "Page narration: listen, read, or record".
-3. Expand "Record your own narration". Press Record and allow microphone access.
-4. Read the script above slowly. You can pause naturally. Press Stop when finished.
-5. Listen with the preview player. If needed, choose Record again.
-6. Press Download clip BEFORE changing pages. Check your Downloads folder.
-7. Repeat for the next page.
+1. Open a lesson and expand "Page narration: listen, read, or record".
+2. Open "Record your own narration". Press Record and allow microphone access.
+3. Read the script. Press Stop, then listen back.
+4. Choose Record again for a retake, or Download clip to keep it.
+5. Check your Downloads folder before moving to the next lesson.
 
-Recording is local. Nothing is uploaded and the public page voice remains pending.
-The clip is temporary until downloaded. Changing pages can lose an unsaved take.
-Most clips take about 45–70 seconds. Seven clips usually take around 10–15 minutes including retakes.
+Clips stay local. Download before leaving the page so you do not lose a take.
+Each script takes roughly 40–60 seconds; allow extra time for retakes.
 
-Files are named automatically:
+The seven files are named for their pages:
 index, geometry, methods, evaluation, experiments, conclusions, bibliography.
-The browser chooses .webm, .m4a or .ogg depending on supported recording formats.
-Keep the filename and extension. Do not rename an encoded .webm file to .m4a.
+Your browser chooses .webm, .m4a or .ogg. Keep the original extension.
 
-To add the real clips to this project
-Place the seven downloaded files in site/narration/.
+Adding the clips
+Place one final clip per page in site/narration/.
 From the project folder run:
     .venv/bin/python scripts/build_site.py --content-only
-The builder supports .m4a, .webm, .ogg, .mp3, .wav and .mp4.
-Use one final clip per page and remove superseded versions. Test every audio player locally before publishing. Verify playback again on the public website after the Pages build completes.
+Supported formats: .m4a, .webm, .ogg, .mp3, .wav, .mp4.
+Check playback locally, publish the update, and check the public players.
 
-If browser recording is unavailable
-Use Voice Memos on the Mac, record each script, and export each clip as the matching page-name.m4a. Keep a quiet room and a consistent microphone distance.
-Headphones help when reviewing. Aim for clear explanations, not a perfect announcer voice.
+If the browser cannot record, use Voice Memos and export each page's clip.
+Record in a quiet room at a consistent distance from the microphone.
 
 Pronunciation
 RGB: R G B; DPT: D P T; DINO: dee-no; NYU: N Y U;
 DA3: Depth Anything Three; AC: A C; AbsRel: absolute relative error.
 
-Content checks
-Relative inverse depth uses arbitrary units; higher means closer.
-The browser displays saved inference; it does not run a neural model.
-NYU scores use oracle alignment on the scored reference pixels.
-The AC authors fine-tuned their checkpoint; this project did not train it.
-The small local comparison is not a full benchmark or a phone deployment.
+Before keeping a take, check that the explanation matches the lesson:
+- The outputs are relative inverse depth, not meters.
+- NYU scores use the reference to fit scale and shift.
+- The AC checkpoint was adapted by its authors; this project did not train it.
+- The explorer displays saved runs.
 
-The downloaded clips are separate from the full spoken presentation video.
-The webpage-voice requirement is complete only when your recordings are added, published and tested.
+These clips provide page narration once they are published. The full spoken presentation video is a separate deliverable.

@@ -26,13 +26,13 @@
   }
   if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
     record.disabled = true;
-    status.textContent = "This browser cannot record here. Use a current browser over HTTPS, or record in Voice Memos and export the clip.";
+    status.textContent = "Recording is unavailable in this browser. Try a current browser over HTTPS, or use Voice Memos.";
     return;
   }
   record.addEventListener("click", async () => {
     pending = true;
     record.disabled = true;
-    status.textContent = "Allow microphone access to begin. Recording stays on your device.";
+    status.textContent = "Allow microphone access to start recording.";
     try {
       stream = await navigator.mediaDevices.getUserMedia({audio: true});
       const mime = ["audio/webm;codecs=opus", "audio/mp4", "audio/ogg;codecs=opus", "audio/webm"]
@@ -69,7 +69,7 @@
         download.download = panel.dataset.recorder + "." + extension;
         download.hidden = false;
         downloaded = false;
-        status.textContent = "Listen back, then download " + download.download + " before leaving this page. This clip has not been published.";
+        status.textContent = "Listen back, then download " + download.download + " before leaving. It stays local until you add it to the website.";
       });
       resetPreview();
       downloaded = true;
@@ -82,7 +82,7 @@
         timer.textContent = String(Math.floor(seconds / 60)).padStart(2, "0") + ":" + String(seconds % 60).padStart(2, "0");
       }, 250);
       stop.disabled = false;
-      status.textContent = "Recording. Read the script above at a comfortable pace, then press Stop.";
+      status.textContent = "Recording… Press Stop when finished.";
     } catch (error) {
       release();
       pending = false;
@@ -101,7 +101,7 @@
   });
   download.addEventListener("click", () => {
     downloaded = true;
-    status.textContent = "Download requested. Check your Downloads folder for " + download.download + ". Add the file to the site's narration folder to publish it.";
+    status.textContent = "Check your Downloads folder for " + download.download + ". Add it to the narration folder to publish it.";
   });
   window.addEventListener("beforeunload", event => {
     if (pending || recorder?.state === "recording" || !downloaded) {

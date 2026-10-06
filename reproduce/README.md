@@ -10,7 +10,7 @@ The lock uses Python 3.12 and the pinned study dependencies. uv can install a co
 ## A new photograph: Hugging Face V2 Small
 Run: uv run python scripts/prepare.py --only model
 Run: uv run python scripts/run_experiments.py --image /path/to/photo.jpg --out outputs/my_photo
-For the website's mirror display photo in a repository clone, use ../media/da2k_transparent_reflective_01_clean.jpg. The source ZIP does not include photographs.
+For the website's wine-glass display photo in a repository clone, use ../media/da2k_transparent_reflective_01_clean.jpg. The source ZIP does not include photographs.
 Quote paths containing spaces. Optional: --device cpu (or mps/cuda when available); --input-size 252, 392, 518 or 700.
 Input is EXIF-oriented, converted to RGB and bounded to a 1,600-pixel longest side. Unsupported very small images and extreme panoramas are rejected.
 Outputs: rgb.png, inverse_depth.npy, depth_color.png, depth_gray.png, comparison.png and result.json. The raw finite float array matches the processed RGB grid. Higher relative inverse depth means closer; values are not meters. Color normalization is per image.

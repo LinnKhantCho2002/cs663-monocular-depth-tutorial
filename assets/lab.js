@@ -31,11 +31,11 @@ const min=Math.min(...vals),max=Math.max(...vals),range=Math.max(1e-9,max-min);
 x.clearRect(0,0,w,h);x.fillStyle="#fff";x.fillRect(0,0,w,h);x.strokeStyle="#dce6e0";x.beginPath();x.moveTo(50,15);x.lineTo(50,h-30);x.lineTo(w-10,h-30);x.stroke();x.strokeStyle="#0a7469";x.lineWidth=2;x.beginPath();vals.forEach((v,i)=>{const px=50+i/127*(w-65),py=h-30-(v-min)/range*(h-50);if(i===0)x.moveTo(px,py);else x.lineTo(px,py);});x.stroke();x.fillStyle="#62776f";x.font="11px system-ui";x.textAlign="right";x.fillText(max.toFixed(3),44,21);x.fillText(min.toFixed(3),44,h-29);x.textAlign="left";x.fillText("A",50,h-10);x.textAlign="right";x.fillText("B",w-10,h-10);}
 function updateProbes(){const g=state.grid,p=pair();const va=state.manual?sample(state.a):p.values.point1;const vb=state.manual?sample(state.b):p.values.point2;const winner=va>vb?"A":vb>va?"B":"Tie";
 const coord=p=>[Math.min(g.nativeWidth-1,Math.floor(p[0]*g.nativeWidth)),Math.min(g.nativeHeight-1,Math.floor(p[1]*g.nativeHeight))];
-$("probe-values").innerHTML='<div class="evidence"><strong>'+(state.manual?'Approximate free probes':'Exact annotated-point values')+'</strong><br>A (x,y): '+coord(state.a).join(", ")+' · q = '+va.toFixed(5)+'<br>B (x,y): '+coord(state.b).join(", ")+' · q = '+vb.toFixed(5)+'<br>Model says: '+winner+(winner==="Tie"?'':' closer')+'<br><small>'+(state.manual?'No reference label for these arbitrary probes.':'A = source point1; B = source point2.')+'</small></div>';
+$("probe-values").innerHTML='<div class="evidence"><strong>'+(state.manual?'Free probes (approximate)':'Annotated-point values (exact)')+'</strong><br>A (x,y): '+coord(state.a).join(", ")+' · q = '+va.toFixed(5)+'<br>B (x,y): '+coord(state.b).join(", ")+' · q = '+vb.toFixed(5)+'<br>Model answer: '+winner+(winner==="Tie"?'':' closer')+'<br><small>'+(state.manual?'These positions have no reference annotation.':'A = source point1; B = source point2.')+'</small></div>';
 }
 function resetPair(){if(!state.grid)return;const p=pair(),g=state.grid;state.a=[(p.point1[1]+.5)/g.nativeWidth,(p.point1[0]+.5)/g.nativeHeight];state.b=[(p.point2[1]+.5)/g.nativeWidth,(p.point2[0]+.5)/g.nativeHeight];state.manual=false;updatePair();draw();}
 function updatePair(){const p=pair();const expected=p.closer_point==="point1"?"A":"B";const winner=p.predicted_closer==="point1"?"A":p.predicted_closer==="point2"?"B":"Tie";
-$("pair-result").innerHTML='<div class="evidence"><strong>Source annotation: '+expected+' closer</strong><br>Saved model prediction: '+winner+(winner==="Tie"?'':' closer')+'<br><strong class="'+(p.correct?'correct':'incorrect')+'">'+(p.correct?'Correct on this pair':'Incorrect on this pair')+'</strong><br>This condition: '+state.grid.record.correct+' / '+state.grid.record.total+' pairs correct.</div>';
+$("pair-result").innerHTML='<div class="evidence"><strong>Source annotation: '+expected+' closer</strong><br>Model answer: '+winner+(winner==="Tie"?'':' closer')+'<br><strong class="'+(p.correct?'correct':'incorrect')+'">'+(p.correct?'Correct on this pair':'Incorrect on this pair')+'</strong><br>This input: '+state.grid.record.correct+' / '+state.grid.record.total+' pairs correct.</div>';
 }
 async function updateComparison(token){const s=scene(),condition=$("condition").value,index=Number($("pair").value);const rows=await Promise.all(Object.entries(state.catalog.models).map(async([key,label])=>{const g=await getJSON(s.conditions[condition].models[key]);const p=g.record.pairs[index];return [label,g.record.correct+" / "+g.record.total,p.correct?"Correct":"Incorrect",g.record.tensor_shape.join(" × ")];}));
 if(token!==state.token)return;
@@ -52,12 +52,12 @@ try{
 const [g,rgb,map]=await Promise.all([getJSON(path),loadImage(s.conditions[condition].rgb),loadImage(path.replace("data/","media/").replace(".json",".png"))]);
 if(token!==state.token)return;
 state.grid=g;state.values=decode(g);state.rgb=rgb;state.map=map;
-$("case-meta").innerHTML='<p>Input tensor: '+g.record.tensor_shape.join(" × ")+'<br>Native grid: '+g.nativeWidth+' × '+g.nativeHeight+'<br>Display grid: '+g.width+' × '+g.height+'</p><p>'+(g.record.consistency?'Rank stability vs original: '+g.record.consistency.spearman_rank_correlation.toFixed(4)+' (not accuracy)':'Original condition; no perturbation stability score.')+'</p>';
+$("case-meta").innerHTML='<p>Input tensor: '+g.record.tensor_shape.join(" × ")+'<br>Native grid: '+g.nativeWidth+' × '+g.nativeHeight+'<br>Display grid: '+g.width+' × '+g.height+'</p><p>'+(g.record.consistency?'Rank stability: '+g.record.consistency.spearman_rank_correlation.toFixed(4)+' (not accuracy)':'Original input.')+'</p>';
 $("case-download").href=path;
 const cap=$("source-caption");cap.replaceChildren();cap.append("Source: DA-2K ");const citation=document.createElement("a");citation.href="bibliography.html#ref13";citation.textContent="[13]";cap.append(citation," · "+s.archive_member+". ");
 const link=document.createElement("a");link.href=s.source_url;link.textContent="Dataset and annotation source";cap.append(link);
 if(s.id==="da2k_transparent_reflective_03")cap.append(" Visible watermark: Marnee Pearce; retained.");
-message("Saved local inference loaded. Higher relative inverse depth means closer.");
+message("Prediction loaded · larger values mean closer.");
 resetPair();await updateComparison(token);
 }catch(e){if(token===state.token)fail(e);}}
 function setActive(which){state.active=which;for(const n of ["a","b"])$("probe-"+n).setAttribute("aria-pressed",String(n===which));}
@@ -78,7 +78,7 @@ const label=$("nyu-layer").selectedOptions[0].textContent;$("nyu-map").alt=s.tit
 $("nyu-legend").textContent=layer==="relative"?"Relative inverse depth: dark = farther, bright = closer; each map uses its own range.":layer==="gt"||layer==="aligned"?"Viridis meter scale: dark purple = 0.1 m, yellow = 10 m. Common range for reference and aligned prediction.":layer==="error"?"Absolute relative error: dark = 0, yellow = 0.5 or higher. Excluded pixels are dark blue-gray.":"White pixels are scored; black pixels are excluded.";
 const metrics=[["Aligned AbsRel ↓",m.metrics.abs_rel.toFixed(5)],["Aligned RMSE (m) ↓",m.metrics.rmse_m.toFixed(4)],["δ₁ ↑",(m.metrics.delta1*100).toFixed(2)+"%"],["Valid pixels",m.metrics.valid_pixels.toLocaleString()]];
 $("nyu-metrics").replaceChildren();for(const [label,value] of metrics){const div=document.createElement("div"),strong=document.createElement("strong");strong.textContent=value;div.append(strong,label);$("nyu-metrics").append(div);}
-$("nyu-fit").textContent="Oracle fit to the same scored pixels: scale a = "+m.fit.scale.toFixed(6)+", shift b = "+m.fit.shift.toFixed(6)+". Clipped fraction: "+(100*m.fit.clipped_valid_fraction).toFixed(3)+"%. These scores describe aligned shape agreement.";
+$("nyu-fit").textContent="Reference-based fit: a = "+m.fit.scale.toFixed(6)+", shift b = "+m.fit.shift.toFixed(6)+". Clipped fraction: "+(100*m.fit.clipped_valid_fraction).toFixed(3)+"%. The reference was used to fit and score this map.";
 $("nyu-source").replaceChildren();$("nyu-source").append("Source: NYU Depth V2 ");const citation=document.createElement("a");citation.href="bibliography.html#ref10";citation.textContent="[10]";$("nyu-source").append(citation," · labeled-file zero-based index "+s.index+". ");
 const a=document.createElement("a");a.href=s.source_url;a.textContent="Dataset homepage";$("nyu-source").append(a);
 }
