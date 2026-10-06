@@ -46,7 +46,7 @@ $("pair-result").replaceChildren();$("probe-values").replaceChildren();$("scene-
 message("Loading saved prediction…");
 const s=scene(),condition=$("condition").value,key=$("model").value;
 $("scene-prompt").textContent=s.prompt;$("case-title").textContent=state.catalog.models[key];
-if(reset){fill("pair",s.pairs.map((p,i)=>[String(i),"Pair "+(i+1)]));$("zoom").value="1";}
+if(reset){fill("pair",s.pairs.map((p,i)=>[String(i),"Pair "+(i+1)]));if(s.id==="da2k_transparent_reflective_03")$("pair").value="1";$("zoom").value="1";}
 const path=s.conditions[condition].models[key];
 try{
 const [g,rgb,map]=await Promise.all([getJSON(path),loadImage(s.conditions[condition].rgb),loadImage(path.replace("data/","media/").replace(".json",".png"))]);
@@ -54,7 +54,7 @@ if(token!==state.token)return;
 state.grid=g;state.values=decode(g);state.rgb=rgb;state.map=map;
 $("case-meta").innerHTML='<p>Input tensor: '+g.record.tensor_shape.join(" × ")+'<br>Native grid: '+g.nativeWidth+' × '+g.nativeHeight+'<br>Display grid: '+g.width+' × '+g.height+'</p><p>'+(g.record.consistency?'Rank stability: '+g.record.consistency.spearman_rank_correlation.toFixed(4)+' (not accuracy)':'Original input.')+'</p>';
 $("case-download").href=path;
-const cap=$("source-caption");cap.replaceChildren();cap.append("Source: DA-2K ");const citation=document.createElement("a");citation.href="bibliography.html#ref13";citation.textContent="[13]";cap.append(citation," · "+s.archive_member+". ");
+const cap=$("source-caption");cap.replaceChildren();cap.append("Source: DA-2K ");const citation=document.createElement("a");citation.href="bibliography.html#ref1";citation.textContent="[1]";cap.append(citation," · "+s.archive_member+". ");
 const link=document.createElement("a");link.href=s.source_url;link.textContent="Dataset and annotation source";cap.append(link);
 if(s.id==="da2k_transparent_reflective_03")cap.append(" Visible watermark: Marnee Pearce; retained.");
 message("Prediction loaded · larger values mean closer.");
@@ -79,7 +79,7 @@ $("nyu-legend").textContent=layer==="relative"?"Relative inverse depth: dark = f
 const metrics=[["Aligned AbsRel ↓",m.metrics.abs_rel.toFixed(5)],["Aligned RMSE (m) ↓",m.metrics.rmse_m.toFixed(4)],["δ₁ ↑",(m.metrics.delta1*100).toFixed(2)+"%"],["Valid pixels",m.metrics.valid_pixels.toLocaleString()]];
 $("nyu-metrics").replaceChildren();for(const [label,value] of metrics){const div=document.createElement("div"),strong=document.createElement("strong");strong.textContent=value;div.append(strong,label);$("nyu-metrics").append(div);}
 $("nyu-fit").textContent="Reference-based fit: a = "+m.fit.scale.toFixed(6)+", shift b = "+m.fit.shift.toFixed(6)+". Clipped fraction: "+(100*m.fit.clipped_valid_fraction).toFixed(3)+"%. The reference was used to fit and score this map.";
-$("nyu-source").replaceChildren();$("nyu-source").append("Source: NYU Depth V2 ");const citation=document.createElement("a");citation.href="bibliography.html#ref10";citation.textContent="[10]";$("nyu-source").append(citation," · labeled-file zero-based index "+s.index+". ");
+$("nyu-source").replaceChildren();$("nyu-source").append("Source: NYU Depth V2 ");const citation=document.createElement("a");citation.href="bibliography.html#ref11";citation.textContent="[11]";$("nyu-source").append(citation," · labeled-file zero-based index "+s.index+". ");
 const a=document.createElement("a");a.href=s.source_url;a.textContent="Dataset homepage";$("nyu-source").append(a);
 }
 for(const id of ["nyu-scene","nyu-model","nyu-layer"])$(id).addEventListener("change",nyuUpdate);

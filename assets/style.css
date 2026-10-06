@@ -25,3 +25,31 @@
 .worked-example .controls{grid-template-columns:repeat(3,minmax(0,1fr))}
 .worked-example .controls label{min-width:0}
 @media(max-width:700px){.worked-example .controls{grid-template-columns:1fr}.loss-bars{gap:1.5rem}}
+
+/* Ungraded questions sit beside the examples they explain. */
+.lesson-question{border:1px solid #bfd4ca;border-radius:14px;background:#f1f7f2;padding:20px;margin:24px 0 32px}
+.question-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;color:var(--accent)}
+.question-heading>span{font-weight:750;font-size:14px}
+.question-heading small{font-size:11px;color:var(--muted)}
+.question-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,1fr);gap:22px;align-items:start}
+.question-controls{min-width:0}
+.question-controls h2{font-size:21px;line-height:1.4;margin:0 0 16px}
+.question-options{display:grid;gap:8px}
+.question-option{font-size:14px;line-height:1.5;text-align:left;padding:11px 14px}
+.question-option[aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}
+.question-feedback{border-left:3px solid var(--accent);background:white;margin-top:16px;padding:10px 14px;font-size:14px}
+.question-feedback p{margin:7px 0}
+.question-feedback [data-choice-response]{color:var(--muted);font-size:12px}
+.question-retry{margin-top:12px;font-size:12px}
+.lesson-question [hidden]{display:none}
+.question-figure{margin:0;min-width:0}
+.quiz-photo{position:relative}
+.quiz-photo img{display:block;width:100%;height:auto;border-radius:8px}
+.photo-point{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;width:29px;height:29px;border:2px solid white;border-radius:50%;color:white;font-size:15px;font-weight:750;box-shadow:0 1px 5px #0008}
+.point-a{background:#146fdb}.point-b{background:#d14443}
+.question-figure figcaption{font-size:10px;line-height:1.6;margin-top:8px;overflow-wrap:anywhere}
+.question-image-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.question-image-pair figure{margin:0}
+.question-image-pair img{display:block;width:100%;height:auto;border-radius:7px}
+@media(max-width:1050px){.question-layout{grid-template-columns:1fr}.question-controls h2{font-size:20px}}
+@media(max-width:700px){.lesson-question{padding:14px}.question-heading{align-items:flex-start}.question-image-pair{gap:7px}.photo-point{width:25px;height:25px;font-size:13px}.question-controls h2{font-size:19px}}
