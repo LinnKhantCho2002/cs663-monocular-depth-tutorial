@@ -93,3 +93,33 @@
 @media(min-width:1051px){.case-cards article{display:grid;grid-template-rows:subgrid;grid-row:span 4;gap:12px}.case-cards h3,.case-cards p{margin:0}.case-actions{align-self:start}}
 .case-actions{display:grid;align-content:start;gap:8px}.case-actions button{margin:0}
 @media(max-width:1050px){.case-actions{margin-top:14px}}
+
+/* Controlled input/output comparison. */
+[hidden]{display:none!important}
+.output-label{font-size:12px;color:var(--accent);font-weight:650;margin:0 0 18px}
+.experiment-controls{grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) minmax(0,.65fr)}
+.condition-controls{border:0;padding:0;margin:22px 0 0;min-width:0}
+.condition-controls legend{font-size:14px;font-weight:650;color:var(--ink);margin-bottom:10px}
+.condition-options{display:flex;flex-wrap:wrap;gap:8px}
+.condition-options button{font-size:13px}
+.condition-note{font-size:14px;line-height:1.6;padding:12px 15px;background:var(--soft);border-radius:8px}
+.experiment-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.experiment-images figure{margin:12px 0;min-width:0}
+.experiment-images figcaption{font-size:13px;font-weight:650;color:var(--ink);margin:0 0 9px}
+.experiment-images canvas{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:9px;background:var(--soft)}
+.prediction-question{padding:17px 20px;background:#f6f0e3;border-radius:10px;margin:20px 0}
+.prediction-question h3{font-size:18px;margin:0 0 10px}
+.prediction-question p{font-size:14px;line-height:1.6;margin:8px 0 13px}
+.prediction-question .toolbar button{font-size:13px}
+.prediction-question #guess-status{font-size:12px;color:var(--muted);margin-bottom:0}
+.reveal-results{background:var(--accent);color:#fff;border-color:var(--accent);font-size:14px;font-weight:650;padding:12px 18px}
+.reveal-results:hover{background:#075b52}.reveal-results:disabled{opacity:.75;cursor:default}
+.controlled-lab #load-status{font-size:12px;color:var(--muted);line-height:1.6}
+.comparison-summary{border:1px solid var(--line);border-radius:9px;padding:14px 18px;margin:18px 0;background:var(--soft)}
+.comparison-summary p{font-size:14px;line-height:1.65;margin:7px 0}
+.inspection-tools{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}
+.inspection-tools summary{cursor:pointer;color:var(--accent);font-size:15px;font-weight:650}
+.inspection-tools .lab-grid{margin-top:18px}
+#depth-canvas{cursor:crosshair}
+@media(max-width:700px){.experiment-controls{grid-template-columns:1fr}.experiment-images{grid-template-columns:1fr;gap:4px}.controlled-lab{padding:14px}.condition-options button{font-size:12px}.prediction-question{padding:15px}.comparison-summary{padding:12px}.experiment-images figcaption{margin-top:8px}}
+.fixed-settings{font-size:12px;color:var(--muted);margin:12px 0;line-height:1.65}.fixed-settings summary{color:var(--accent);cursor:pointer}.fixed-settings p{margin:8px 0}
