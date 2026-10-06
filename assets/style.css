@@ -88,3 +88,8 @@
 @media(max-width:700px){.case-study{padding:14px}.case-images.two{grid-template-columns:1fr}.case-images{gap:20px}.case-cards article{padding:16px}}
 
 .viewer-steps{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0 0 14px}.viewer-steps span{font-size:11px;font-weight:750;color:var(--muted);margin-right:3px}.viewer-steps span:not(:first-child){margin-left:12px}.viewer-steps button{font-size:11px;padding:7px 10px}
+
+/* Share card rows so corresponding text and controls line up. */
+@media(min-width:1051px){.case-cards article{display:grid;grid-template-rows:subgrid;grid-row:span 4;gap:12px}.case-cards h3,.case-cards p{margin:0}.case-actions{align-self:start}}
+.case-actions{display:grid;align-content:start;gap:8px}.case-actions button{margin:0}
+@media(max-width:1050px){.case-actions{margin-top:14px}}
