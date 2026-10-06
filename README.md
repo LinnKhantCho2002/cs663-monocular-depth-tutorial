@@ -1,4 +1,4 @@
-# Depth from one image — CS663 tutorial
+# Testing monocular depth models — CS663 research tutorial
 Static HTML/CSS/JavaScript tutorial by Linn Khant Cho.
 
 Serve this folder over HTTP; the interactive explorer fetches local JSON:
