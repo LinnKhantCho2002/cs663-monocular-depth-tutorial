@@ -53,3 +53,9 @@
 .question-image-pair img{display:block;width:100%;height:auto;border-radius:7px}
 @media(max-width:1050px){.question-layout{grid-template-columns:1fr}.question-controls h2{font-size:20px}}
 @media(max-width:700px){.lesson-question{padding:14px}.question-heading{align-items:flex-start}.question-image-pair{gap:7px}.photo-point{width:25px;height:25px;font-size:13px}.question-controls h2{font-size:19px}}
+
+/* Introduction and the first lesson have separate entry points. */
+.intro-action{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:28px 0}
+.begin-link{display:inline-block;background:var(--accent);color:white;border-radius:9px;padding:12px 20px;text-decoration:none;font-weight:650;font-size:16px}
+.begin-link:hover{background:var(--ink);color:white}
+.intro-action span{font-size:12px;color:var(--muted)}

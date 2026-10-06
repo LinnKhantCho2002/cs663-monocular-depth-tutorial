@@ -11,8 +11,8 @@ Use these scripts as a starting point and adjust them to your own speaking style
 Clips stay local. Download before leaving the page so you do not lose a take.
 Each script takes roughly 40–60 seconds; allow extra time for retakes.
 
-The seven files are named for their pages:
-index, geometry, methods, evaluation, experiments, conclusions, bibliography.
+The eight files are named for their pages:
+index (introduction), start (mirror lesson), geometry, methods, evaluation, experiments, conclusions, bibliography.
 Your browser chooses .webm, .m4a or .ogg. Keep the original extension.
 
 Adding the clips
