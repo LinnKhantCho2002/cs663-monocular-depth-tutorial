@@ -59,3 +59,32 @@
 .begin-link{display:inline-block;background:var(--accent);color:white;border-radius:9px;padding:12px 20px;text-decoration:none;font-weight:650;font-size:16px}
 .begin-link:hover{background:var(--ink);color:white}
 .intro-action span{font-size:12px;color:var(--muted)}
+
+/* Saved examples connect each lesson to evidence the reader can inspect. */
+.case-study{margin:32px 0;padding:22px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.case-study h2{margin:10px 0 16px;font-size:25px}
+.case-images{display:grid;gap:16px;margin:18px 0}
+.case-images.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.case-images.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.case-images figure{min-width:0;margin:0}
+.case-images figcaption{font-size:12px}
+.case-reveal{margin:22px 0;border:1px solid #bacdc4;border-radius:9px;padding:14px 18px;background:#f5f8f3}
+.case-reveal summary{font-weight:650;color:var(--accent);cursor:pointer}
+.case-reveal p{font-size:15px}
+.case-image{position:relative}
+.inspection-box{position:absolute;left:80%;top:60%;width:14%;height:11%;border:2px dashed #fff;box-shadow:0 0 0 1px #173b39}
+.case-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.case-cards article{padding:18px;border:1px solid var(--line);border-radius:10px;background:#fff;min-width:0}
+.case-cards h3{font-size:19px;margin:12px 0}
+.case-cards p{font-size:14px;line-height:1.6}
+.case-cards button{display:block;width:100%;text-align:left;font-size:12px;margin:8px 0}
+#example-status,.case-reading{font-size:14px;line-height:1.6;padding:12px 16px;background:var(--soft);border-radius:8px}
+.case-reading:empty{display:none}
+.kitchen-steps{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0;scroll-margin-top:100px}
+.kitchen-steps button{font-size:13px}
+.finding-list{padding:10px 22px;border-left:3px solid var(--accent);background:var(--soft);margin:25px 0}
+.finding-list p{font-size:15px}
+@media(max-width:1050px){.case-cards{grid-template-columns:1fr}.case-images.three{grid-template-columns:1fr}.case-images.three img{max-width:620px}}
+@media(max-width:700px){.case-study{padding:14px}.case-images.two{grid-template-columns:1fr}.case-images{gap:20px}.case-cards article{padding:16px}}
+
+.viewer-steps{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0 0 14px}.viewer-steps span{font-size:11px;font-weight:750;color:var(--muted);margin-right:3px}.viewer-steps span:not(:first-child){margin-left:12px}.viewer-steps button{font-size:11px;padding:7px 10px}

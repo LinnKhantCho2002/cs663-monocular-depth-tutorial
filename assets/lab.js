@@ -34,19 +34,19 @@ const coord=p=>[Math.min(g.nativeWidth-1,Math.floor(p[0]*g.nativeWidth)),Math.mi
 $("probe-values").innerHTML='<div class="evidence"><strong>'+(state.manual?'Free probes (approximate)':'Annotated-point values (exact)')+'</strong><br>A (x,y): '+coord(state.a).join(", ")+' · q = '+va.toFixed(5)+'<br>B (x,y): '+coord(state.b).join(", ")+' · q = '+vb.toFixed(5)+'<br>Model answer: '+winner+(winner==="Tie"?'':' closer')+'<br><small>'+(state.manual?'These positions have no reference annotation.':'A = source point1; B = source point2.')+'</small></div>';
 }
 function resetPair(){if(!state.grid)return;const p=pair(),g=state.grid;state.a=[(p.point1[1]+.5)/g.nativeWidth,(p.point1[0]+.5)/g.nativeHeight];state.b=[(p.point2[1]+.5)/g.nativeWidth,(p.point2[0]+.5)/g.nativeHeight];state.manual=false;updatePair();draw();}
-function updatePair(){const p=pair();const expected=p.closer_point==="point1"?"A":"B";const winner=p.predicted_closer==="point1"?"A":p.predicted_closer==="point2"?"B":"Tie";
+function updatePair(){if(state.manual){$("pair-result").innerHTML='<div class="evidence"><strong>Free probes: no reference score</strong><br>The saved pair count below applies to the original annotations. Reset points to check the selected source pair.</div>';return;}const p=pair();const expected=p.closer_point==="point1"?"A":"B";const winner=p.predicted_closer==="point1"?"A":p.predicted_closer==="point2"?"B":"Tie";
 $("pair-result").innerHTML='<div class="evidence"><strong>Source annotation: '+expected+' closer</strong><br>Model answer: '+winner+(winner==="Tie"?'':' closer')+'<br><strong class="'+(p.correct?'correct':'incorrect')+'">'+(p.correct?'Correct on this pair':'Incorrect on this pair')+'</strong><br>This input: '+state.grid.record.correct+' / '+state.grid.record.total+' pairs correct.</div>';
 }
 async function updateComparison(token){const s=scene(),condition=$("condition").value,index=Number($("pair").value);const rows=await Promise.all(Object.entries(state.catalog.models).map(async([key,label])=>{const g=await getJSON(s.conditions[condition].models[key]);const p=g.record.pairs[index];return [label,g.record.correct+" / "+g.record.total,p.correct?"Correct":"Incorrect",g.record.tensor_shape.join(" × ")];}));
 if(token!==state.token)return;
 $("scene-comparison").replaceChildren();for(const row of rows){const tr=document.createElement("tr");row.forEach((text,i)=>{const cell=document.createElement(i===0?"th":"td");cell.textContent=text;if(i===0)cell.scope="row";if(i===2)cell.className=text==="Correct"?"correct":"incorrect";tr.append(cell);});$("scene-comparison").append(tr);}}
-async function selectCase(reset=false){
+async function selectCase(reset=false,pairIndex=null){
 const token=++state.token;state.grid=null;state.values=null;state.rgb=null;state.map=null;
 $("pair-result").replaceChildren();$("probe-values").replaceChildren();$("scene-comparison").replaceChildren();const c=$("depth-canvas");c.getContext("2d").clearRect(0,0,c.width,c.height);
 message("Loading saved prediction…");
 const s=scene(),condition=$("condition").value,key=$("model").value;
 $("scene-prompt").textContent=s.prompt;$("case-title").textContent=state.catalog.models[key];
-if(reset){fill("pair",s.pairs.map((p,i)=>[String(i),"Pair "+(i+1)]));if(s.id==="da2k_transparent_reflective_03")$("pair").value="1";$("zoom").value="1";}
+if(reset){fill("pair",s.pairs.map((p,i)=>[String(i),"Pair "+(i+1)]));if(pairIndex!==null)$("pair").value=String(pairIndex);else if(s.id==="da2k_transparent_reflective_03")$("pair").value="1";$("zoom").value="1";}
 const path=s.conditions[condition].models[key];
 try{
 const [g,rgb,map]=await Promise.all([getJSON(path),loadImage(s.conditions[condition].rgb),loadImage(path.replace("data/","media/").replace(".json",".png"))]);
@@ -61,7 +61,7 @@ message("Prediction loaded · larger values mean closer.");
 resetPair();await updateComparison(token);
 }catch(e){if(token===state.token)fail(e);}}
 function setActive(which){state.active=which;for(const n of ["a","b"])$("probe-"+n).setAttribute("aria-pressed",String(n===which));}
-function moveProbe(p,which){state[which]=p.map(v=>Math.min(1-1e-8,Math.max(0,v)));state.manual=true;draw();}
+function moveProbe(p,which){state[which]=p.map(v=>Math.min(1-1e-8,Math.max(0,v)));state.manual=true;updatePair();draw();}
 $("depth-canvas").addEventListener("click",e=>{if(!state.grid)return;const r=e.currentTarget.getBoundingClientRect(),v=viewport();moveProbe([v.x+(e.clientX-r.left)/r.width*v.width,v.y+(e.clientY-r.top)/r.height*v.height],e.shiftKey?"b":state.active);});
 $("depth-canvas").addEventListener("keydown",e=>{if(!state.grid||!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key))return;e.preventDefault();const p=state[state.active].slice();const stride=e.shiftKey?10:1;p[0]+=(e.key==="ArrowRight"?stride:e.key==="ArrowLeft"?-stride:0)/state.grid.nativeWidth;p[1]+=(e.key==="ArrowDown"?stride:e.key==="ArrowUp"?-stride:0)/state.grid.nativeHeight;moveProbe(p,state.active);});
 $("probe-a").addEventListener("click",()=>setActive("a"));$("probe-b").addEventListener("click",()=>setActive("b"));
@@ -83,9 +83,44 @@ $("nyu-source").replaceChildren();$("nyu-source").append("Source: NYU Depth V2 "
 const a=document.createElement("a");a.href=s.source_url;a.textContent="Dataset homepage";$("nyu-source").append(a);
 }
 for(const id of ["nyu-scene","nyu-model","nyu-layer"])$(id).addEventListener("change",nyuUpdate);
+const examples={
+"mirror":{scene:"da2k_transparent_reflective_03",condition:"clean",model:"v2",pair:1,reading:"Mirror · original · V2 · pair 2. The annotation says A is closer; V2 chooses B. Compare DA3 at the same points."},
+"mirror-da3":{scene:"da2k_transparent_reflective_03",condition:"clean",model:"da3",pair:1,reading:"Mirror · original · DA3 · pair 2. DA3 chooses A, matching this annotation. One pair does not score the entire reflection."},
+"traffic-original":{scene:"da2k_adverse_style_03",condition:"clean",model:"v2",pair:1,reading:"Traffic · original · V2 · pair 2. V2 chooses A and gets all 3 pairs right. Next, change only the input to strong dimming."},
+"dimming":{scene:"da2k_adverse_style_03",condition:"dark_strong",model:"v2",pair:1,reading:"Traffic · strong dimming · V2 · pair 2. V2 now chooses B, while the label still says A. The count falls from 3/3 to 1/3."},
+"traffic-ac":{scene:"da2k_adverse_style_03",condition:"dark_strong",model:"ac",pair:1,reading:"Traffic · strong dimming · AC · pair 2. AC chooses A and retains 3/3. DA3 also retains 3/3 on this scene; compare it with the model control."},
+"kitchen":{layer:"aligned",reading:"Kitchen · V2 · aligned prediction. Scale and shift were fitted using the reference. Next compare the sensor reference and error map."},
+"kitchen-reference":{layer:"gt",reading:"Kitchen · filled sensor reference. Compare the right counter edge with the aligned V2 prediction, using the same meter color range."},
+"kitchen-error":{layer:"error",reading:"Kitchen · V2 · relative error. Bright areas near the counter edge show a mismatch; blue-gray areas were excluded. A low average does not mean every edge is correct."}
+};
+const exampleButtons=[...document.querySelectorAll("[data-example]")];
+for(const button of exampleButtons){button.disabled=true;button.setAttribute("aria-pressed","false");button.addEventListener("click",()=>applyExample(button.dataset.example).catch(fail));}
+function clearGuidance(){$("case-reading").textContent="";$("kitchen-reading").textContent="";for(const button of exampleButtons)button.setAttribute("aria-pressed","false");$("example-status").textContent="Controls changed. Compare the current scene, model, input, and reference in the viewer.";}
+for(const id of ["scene","condition","model","pair","nyu-scene","nyu-model","nyu-layer"])$(id).addEventListener("change",clearGuidance);
+async function applyExample(key){
+const example=examples[key];if(!example||!state.catalog)return;
+for(const button of exampleButtons){button.disabled=true;button.setAttribute("aria-pressed",String(button.dataset.example===key));}
+$("example-status").textContent="Loading the example…";
+try{
+let target;
+if(example.layer){$("nyu-scene").value="nyu_0001";$("nyu-model").value="v2";$("nyu-layer").value=example.layer;nyuUpdate();target=document.querySelector(".kitchen-steps");}
+else{
+$("scene").value=example.scene;$("condition").value=example.condition;$("model").value=example.model;
+state.revealed=false;$("reveal").setAttribute("aria-pressed","false");$("reveal").textContent="Reveal depth map";
+$("opacity").value="65";$("opacity-value").textContent="65%";setActive("a");
+await selectCase(true,example.pair);if(!state.grid)throw new Error("Could not load the selected example.");target=$("explorer");
+}
+$("example-status").textContent=example.reading;
+const note=example.layer?$("kitchen-reading"):$("case-reading");note.textContent=example.reading;
+target.scrollIntoView({block:"start"});
+}catch(e){$("example-status").textContent="The example could not load. Retry or reload the page.";throw e;}
+finally{for(const button of exampleButtons)button.disabled=false;}
+}
 try{state.catalog=await getJSON("data/catalog.json");
 fill("scene",state.catalog.scenes.map(s=>[s.id,s.title]));fill("condition",Object.entries(state.catalog.conditions));fill("model",Object.entries(state.catalog.models));
 $("scene").value="da2k_transparent_reflective_03";
 fill("nyu-scene",state.catalog.nyu.map(s=>[s.id,s.title]));fill("nyu-model",Object.entries(state.catalog.models));nyuUpdate();await selectCase(true);
+for(const button of exampleButtons)button.disabled=false;
+const initial=new URLSearchParams(location.search).get("example");if(initial&&examples[initial])await applyExample(initial);
 }catch(e){fail(e);}
 })();
